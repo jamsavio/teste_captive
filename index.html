@@ -96,23 +96,23 @@
       };
 
       // Validate the URL
-      window.isUrlValid = function (url) {
+      /*window.isUrlValid = function (url) {
           try {
               var urlObj = new URL(url);
               return /^https?:$/.test(urlObj.protocol);
           } catch (e) {
               return false;
           }
-      };
+      };*/
 
       // Handle form submission
       nebula.submitEvent = function (e) {
-          var postURL = nebula.acquireCallbackUrl();
-          if (postURL && !window.isUrlValid(postURL)) {
+          //var postURL = nebula.acquireCallbackUrl();
+          /*if (postURL && !window.isUrlValid(postURL)) {
               e.preventDefault();
               alert('URL inválido. Por favor, tente novamente.');
               return false;
-          }
+          }*/
           // Disable the submit button
           document.getElementById('submit-btn').setAttribute('disabled', 'disabled');
           window.setTimeout(function () {
@@ -154,9 +154,6 @@
           </table>
         </div>
       </div>      
-
-      <input name="redirurl" type="hidden" value="$PORTAL_REDIRURL$">
-      <input name="zone" type="hidden" value="$PORTAL_ZONE$">
       <button name="accept" type="submit">Entrar</button>
       
     </form>
