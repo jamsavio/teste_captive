@@ -1,4 +1,3 @@
-<!--- Created by @jamsaavio -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #E0F2F1; /* Cor de fundo opaco */
+      background-color: #E0F2F1;
     }
 
     .container {
@@ -18,8 +17,8 @@
       margin: 50px auto;
       padding: 20px;
       background-color: #fff;
-      border-radius: 10px; /* Borda arredondada */
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
     .form-group {
@@ -34,20 +33,20 @@
 
     input[type="text"],
     input[type="tel"] {
-      width: calc(100% - 20px); /* Largura total com margem */
+      width: calc(100% - 20px);
       padding: 12px;
-      border: 1px solid #d1d1d6; /* Cor da borda */
-      border-radius: 8px; /* Borda arredondada */
-      background-color: #f2f2f7; /* Cor de fundo */
+      border: 1px solid #d1d1d6;
+      border-radius: 8px;
+      background-color: #f2f2f7;
     }
 
     button {
       width: 100%;
-      background-color: #009238; /* Cor do botão */
+      background-color: #009238;
       color: #fff;
       border: none;
       padding: 12px;
-      border-radius: 8px; /* Borda arredondada */
+      border-radius: 8px;
       cursor: pointer;
     }
 
@@ -55,18 +54,17 @@
       background-color: #007a2f;
     }
 
-    /* Estilo para checkbox no formato iOS */
     .ios-checkbox .form-check-input {
-      width: 20px; /* Largura do checkbox */
-      height: 20px; /* Altura do checkbox */
-      margin-right: 5px; /* Espaçamento entre o checkbox e o texto */
-      vertical-align: middle; /* Alinhar verticalmente com o texto */
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      vertical-align: middle;
     }
 
     .ios-checkbox .form-check-label.small {
-      font-size: 14px; /* Tamanho do texto pequeno */
-      vertical-align: middle; /* Alinhar verticalmente com o checkbox */
-      display: inline-block; /* Permitir que o texto fique ao lado do checkbox */
+      font-size: 14px;
+      vertical-align: middle;
+      display: inline-block;
     }
 </style>
 </head>
@@ -74,7 +72,7 @@
   <div class="container">
     <span style="font-family: Segoe UI; font-size: 26px">Conectar no WiFi - Casa Vieira</span><h2></h2>
 
-    <form method="post" autocomplete="off" name="google-sheet" id="google-sheet" action="https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi" enctype="application/x-www-form-urlencoded">
+    <form id="connect-form" method="post" autocomplete="off">
       <div class="form-group">
         <label for="name">Nome:</label>
         <input type="text" id="name" name="Nome">
@@ -88,21 +86,21 @@
       <div class="form-group ios-checkbox">
         <div class="form-check">
           <table>
-            <td><input class="form-check-input" type="checkbox" id="whatsappOptIn" name="Termo de consentimento do uso dos dados" value="Aceito" checked></td>
-            <td><label class="form-check-label small" for="whatsappOptIn"><b>Quero receber ofertas exclusivas da loja via WhatsApp.</b> Entendemos que sua privacidade é importante, e seus dados estarão em ambiente seguro. Você pode cancelar o recebimento dessas ofertas a qualquer momento.</label></td>
+            <tr>
+              <td><input class="form-check-input" type="checkbox" id="whatsappOptIn" name="Termo de consentimento do uso dos dados" value="Aceito" checked></td>
+              <td><label class="form-check-label small" for="whatsappOptIn"><b>Quero receber ofertas exclusivas da loja via WhatsApp.</b> Entendemos que sua privacidade é importante, e seus dados estarão em ambiente seguro. Você pode cancelar o recebimento dessas ofertas a qualquer momento.</label></td>
+            </tr>
           </table>
         </div>
-      </div>      
-
-      <button name="accept" type="submit">Entrar</button>
-      
+      </div>     
+      <button type="submit">Entrar</button>
     </form>
   </div>
 
   <script>
     document.getElementById('phone').addEventListener('input', function(event) {
         const phoneInput = event.target;
-        const phone = phoneInput.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        const phone = phoneInput.value.replace(/\D/g, '');
         const formattedPhone = formatPhoneNumber(phone);
         phoneInput.value = formattedPhone;
     });
@@ -110,11 +108,11 @@
     function formatPhoneNumber(phone) {
         const match = phone.match(/^(\d{0,2})(\d{0,5})(\d{0,4})$/);
         if (match[1] && !match[2]) {
-        return `(${match[1]}`;
+            return `(${match[1]}`;
         } else if (match[1] && match[2] && !match[3]) {
-        return `(${match[1]}) ${match[2]}`;
+            return `(${match[1]}) ${match[2]}`;
         } else if (match[1] && match[2] && match[3]) {
-        return `(${match[1]}) ${match[2]}-${match[3]}`;
+            return `(${match[1]}) ${match[2]}-${match[3]}`;
         }
         return phone;
     }
@@ -128,77 +126,51 @@
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
-    // Função para criar um cookie permanente
-    function createCookie(name, value, days) {
-        let expires = "";
-        if (days) {
-            const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
+    const form = document.getElementById('connect-form');
+
+    // Preencher o campo Data com a data atual
+    const timestamp = new Date();
+    const formattedTimestamp = formatDate(timestamp);
+    document.getElementById('Data').value = formattedTimestamp;
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        const contatoInput = form.querySelector('input[name="Contato"]');
+        const contatoValor = contatoInput.value;
+        const nomeInput = form.querySelector('input[name="Nome"]');
+        const nomeValor = nomeInput.value;
+
+        const whatsappOptInCheckbox = document.getElementById('whatsappOptIn');
+        if (!whatsappOptInCheckbox.checked || contatoValor === "" || nomeValor === "") {
+            alert("Por favor, preencha todos os campos e aceite os termos.");
+            return;
         }
-        document.cookie = name + "=" + value + expires + "; path=/";
-    }
 
-    // Função para ler o cookie
-    function readCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
+        // Dados do formulário
+        const formData = new FormData(form);
 
-    // Verifica se o cookie existe
-    const visitedCookie = readCookie('visited');
-    const container = document.querySelector('.container');
-
-    /*if (visitedCookie) {
-        container.innerHTML = '<p style="font-size: 20px; text-align: center;"><b>CONECTADO!</b> Obrigado por nos visitar. 🤝</p>';
-        container.innerHTML += `
-          <form method="post" autocomplete="off" name="google-sheet" id="google-sheet" action="$PORTAL_ACTION$" style="display: none;">
-              <input name="redirurl" type="hidden" value="$PORTAL_REDIRURL$">
-              <input name="zone" type="hidden" value="$PORTAL_ZONE$">
-              <button name="accept" id="submitButton" type="submit" style="display: none;">Entrar</button>
-          </form>
-        `;
-        
-        window.onload = function() {
-          document.getElementsByName('accept')[0].click();
-        };
-    } else {*/
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzt82sKn-PqdFuMYK2WMZEaQ13GNNgJnBGeHl5pN4rKdaRUXf2qRWzHtlThsB-PqnpR/exec'
-        const form = document.forms['google-sheet']
-
-        const timestamp = new Date();
-        const formattedTimestamp = formatDate(timestamp);
-        document.getElementById('Data').value = formattedTimestamp;
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            //createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
-
-            //const loadingDiv = document.getElementById('loading');
-            //loadingDiv.style.display = 'block'; // Mostra o elemento de carregamento
-
-            const contatoInput = form.querySelector('input[name="Contato"]');
-            const contatoValor = contatoInput.value;
-            const nomeInput = form.querySelector('input[name="Nome"]');
-            const nomeValor = nomeInput.value;
-
-            const whatsappOptInCheckbox = document.getElementById('whatsappOptIn');
-            if (!whatsappOptInCheckbox.checked || contatoValor == "" || nomeInput == "") {
-                alert("CONECTADO! Obrigado por nos visitar. 🤝")
-                return; 
+        // Enviar os dados para a primeira URL (Google Sheets)
+        fetch('https://script.google.com/macros/s/AKfycbzt82sKn-PqdFuMYK2WMZEaQ13GNNgJnBGeHl5pN4rKdaRUXf2qRWzHtlThsB-PqnpR/exec', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Falha ao conectar com a primeira URL');
+            // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
+            return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
+                method: 'POST'
+            });
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("CONECTADO! Obrigado por nos visitar. 🤝");
+            } else {
+                throw new Error('Falha ao conectar com a segunda URL');
             }
-
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-            .then(response => alert("CONECTADO! Obrigado por nos visitar. 🤝"))
-            .catch(error => console.error('Error!', error.message))
-        });
-    //}
+        })
+        .catch(error => console.error('Error!', error.message));
+    });
   </script>
 </body>
 </html>
