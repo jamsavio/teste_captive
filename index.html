@@ -195,16 +195,15 @@
                 body: formData
             })
             .then(response => {
-                throw new Error('Erro ao conectar com a URL');
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
                 return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
                     method: 'POST'
                 });
             })
-            /*.then(response => {
+            .then(response => {
                 alert("CONECTADO! Obrigado por nos visitar. 🤝");
                 //createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
-            })*/
+            })
             .catch(error => console.error('Error!', error.message));
         });
    // }
