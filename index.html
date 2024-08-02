@@ -126,51 +126,63 @@
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
-    const form = document.getElementById('connect-form');
+    const visitedCookie = readCookie('visited');
+    const container = document.querySelector('.container');
+    if (visitedCookie) {
+        container.innerHTML = '<p style="font-size: 20px; text-align: center;"><b>CONECTADO!</b> Obrigado por nos visitar. 🤝</p>';
+        container.innerHTML += `
+          <form method="post" autocomplete="off" name="google-sheet" id="google-sheet" style="display: none;" action="https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi" enctype="application/x-www-form-urlencoded">
+              <button name="accept" id="submitButton" type="submit" style="display: none;">Entrar</button>
+          </form>
+        `;
+        
+        window.onload = function() {
+          document.getElementsByName('accept')[0].click();
+        };
+    }else{
+        const form = document.getElementById('connect-form');
 
-    // Preencher o campo Data com a data atual
-    const timestamp = new Date();
-    const formattedTimestamp = formatDate(timestamp);
-    document.getElementById('Data').value = formattedTimestamp;
+        // Preencher o campo Data com a data atual
+        const timestamp = new Date();
+        const formattedTimestamp = formatDate(timestamp);
+        document.getElementById('Data').value = formattedTimestamp;
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
+        form.addEventListener('submit', e => {
+            e.preventDefault();
 
-        const contatoInput = form.querySelector('input[name="Contato"]');
-        const contatoValor = contatoInput.value;
-        const nomeInput = form.querySelector('input[name="Nome"]');
-        const nomeValor = nomeInput.value;
+            const contatoInput = form.querySelector('input[name="Contato"]');
+            const contatoValor = contatoInput.value;
+            const nomeInput = form.querySelector('input[name="Nome"]');
+            const nomeValor = nomeInput.value;
 
-        const whatsappOptInCheckbox = document.getElementById('whatsappOptIn');
-        if (!whatsappOptInCheckbox.checked || contatoValor === "" || nomeValor === "") {
-            alert("Por favor, preencha todos os campos e aceite os termos.");
-            return;
-        }
+            /*const whatsappOptInCheckbox = document.getElementById('whatsappOptIn');
+            if (!whatsappOptInCheckbox.checked || contatoValor === "" || nomeValor === "") {
+                alert("Por favor, preencha todos os campos e aceite os termos.");
+                return;
+            }*/
 
-        // Dados do formulário
-        const formData = new FormData(form);
+            // Dados do formulário
+            const formData = new FormData(form);
 
-        // Enviar os dados para a primeira URL (Google Sheets)
-        fetch('https://script.google.com/macros/s/AKfycbzt82sKn-PqdFuMYK2WMZEaQ13GNNgJnBGeHl5pN4rKdaRUXf2qRWzHtlThsB-PqnpR/exec', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) throw new Error('Falha ao conectar com a primeira URL');
-            // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
-            return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
-                method: 'POST'
-            });
-        })
-        .then(response => {
-            if (response.ok) {
+            // Enviar os dados para a primeira URL (Google Sheets)
+            fetch('https://script.google.com/macros/s/AKfycbzt82sKn-PqdFuMYK2WMZEaQ13GNNgJnBGeHl5pN4rKdaRUXf2qRWzHtlThsB-PqnpR/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                throw new Error('Erro ao conectar com a URL');
+                // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
+                return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
+                    method: 'POST'
+                });
+            })
+            .then(response => {
                 alert("CONECTADO! Obrigado por nos visitar. 🤝");
-            } else {
-                throw new Error('Falha ao conectar com a segunda URL');
-            }
-        })
-        .catch(error => console.error('Error!', error.message));
-    });
+                createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
+            })
+            .catch(error => console.error('Error!', error.message));
+        });
+    }
   </script>
 </body>
 </html>
