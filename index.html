@@ -195,6 +195,7 @@
                 body: formData
             })
             .then(response => {
+                throw new Error('Erro ao conectar com a URL');
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
                 return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
                     method: 'POST'
