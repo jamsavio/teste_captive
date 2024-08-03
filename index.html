@@ -190,22 +190,23 @@
             const formData = new FormData(form);
 
             // Enviar os dados para a primeira URL (Google Sheets)
-            fetch('https://script.google.com/macros/s/AKfycbzt82sKn-PqdFuMYK2WMZEaQ13GNNgJnBGeHl5pN4rKdaRUXf2qRWzHtlThsB-PqnpR/exec', {
+            fetch('http://portal.portalbefreewifi.com/cgi-bin/Clicktocontinue.cgi', {
                 method: 'POST',
                 body: formData
             })
             .then(response => {
                 throw new Error('Erro ao conectar com a URL');
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
-                /*return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
-                    method: 'POST'
-                });*/
-                var form = document.createElement('form');
+                return fetch('https://script.google.com/macros/s/AKfycbzt82sKn-PqdFuMYK2WMZEaQ13GNNgJnBGeHl5pN4rKdaRUXf2qRWzHtlThsB-PqnpR/exec', {
+                    method: 'POST',
+                    body: formData
+                });
+                /*var form = document.createElement('form');
                 form.method = 'POST';
                 form.action = 'http://portal.portalbefreewifi.com/cgi-bin/Clicktocontinue.cgi';
                 form.style.display = 'none';
                 document.body.appendChild(form);
-                form.submit();
+                form.submit();*/
             })
         });
    // }
