@@ -197,9 +197,15 @@
             .then(response => {
                 throw new Error('Erro ao conectar com a URL');
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
-                return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
+                /*return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
                     method: 'POST'
-                });
+                });*/
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'http://portal.portalbefreewifi.com/cgi-bin/Clicktocontinue.cgi';
+                form.style.display = 'none';
+                document.body.appendChild(form);
+                form.submit();
             })
         });
    // }
