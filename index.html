@@ -151,7 +151,7 @@
     }
 
     const visitedCookie = readCookie('visited');
-    const container = document.querySelector('.container');*/
+    const container = document.querySelector('.container');
 
     if (visitedCookie) {
         container.innerHTML = '<p style="font-size: 20px; text-align: center;"><b>CONECTADO!</b> Obrigado por nos visitar. 🤝</p>';
@@ -197,6 +197,7 @@
             .then(response => {
                 throw new Error('Erro ao conectar com a URL do Google Sheets');
                 createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
+
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
                 return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
                     method: 'POST',
