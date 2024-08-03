@@ -128,7 +128,7 @@
 
     
     // Função para criar um cookie permanente
-  /*  function createCookie(name, value, days) {
+    function createCookie(name, value, days) {
         let expires = "";
         if (days) {
             const date = new Date();
@@ -153,7 +153,7 @@
     const visitedCookie = readCookie('visited');
     const container = document.querySelector('.container');*/
 
-    /*if (visitedCookie) {
+    if (visitedCookie) {
         container.innerHTML = '<p style="font-size: 20px; text-align: center;"><b>CONECTADO!</b> Obrigado por nos visitar. 🤝</p>';
         container.innerHTML += `
         <form method="post" autocomplete="off" name="google-sheet" id="google-sheet" style="display: none;" action="https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi" enctype="application/x-www-form-urlencoded">
@@ -164,7 +164,7 @@
         window.onload = function() {
         document.getElementsByName('accept')[0].click();
         };
-    } else {*/
+    } else {
         const form = document.getElementById('connect-form');
 
         // Preencher o campo Data com a data atual
@@ -196,6 +196,7 @@
             })
             .then(response => {
                 throw new Error('Erro ao conectar com a URL do Google Sheets');
+                createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
                 return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
                     method: 'POST',
@@ -206,7 +207,7 @@
             })
             .catch(error => console.error('Error!', error.message))
         });
-   // }
+    }
   </script>
 </body>
 </html>
