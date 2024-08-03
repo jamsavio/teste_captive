@@ -128,10 +128,10 @@
 
     function welcome(){
         const container = document.querySelector('.container');
-        container.innerHTML = '<p style="font-size: 20px; text-align: center;"><b>CONECTADO!</b> Obrigado por nos visitar. 🤝</p>';
-        container.innerHTML += `<div id="loading" style="text-align: center; margin-top: 8px;">
+        container.innerHTML = `<div id="loading" style="text-align: center; margin-bottom: 8px;">
                                     <img src="https://raw.githubusercontent.com/jamsavio/teste_captive/master/loading.gif" width="30" height="30" alt="Carregando...">
                                 </div>`;
+        container.innerHTML += '<p style="font-size: 20px; text-align: center;"><b>CONECTADO!</b> Obrigado por nos visitar. 🤝</p>';
         container.innerHTML += `
         <form method="post" autocomplete="off" name="google-sheet" id="google-sheet" style="display: none;" action="https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi" enctype="application/x-www-form-urlencoded">
             <button name="accept" id="submitButton" type="submit" style="display: none;">Entrar</button>
