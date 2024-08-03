@@ -141,7 +141,7 @@
 
     
     // Função para criar um cookie permanente
-    /*function createCookie(name, value, days) {
+    function createCookie(name, value, days) {
         let expires = "";
         if (days) {
             const date = new Date();
@@ -166,7 +166,7 @@
     const visitedCookie = readCookie('visited');
     if (visitedCookie) {
         welcome();
-    } else {*/
+    } else {
         const form = document.getElementById('connect-form');
 
         // Preencher o campo Data com a data atual
@@ -203,11 +203,11 @@
                 return response.json();
             })
             .then(data => {
-                //createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
+                createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
                 welcome();
             })
         });
-    //}
+    }
   </script>
 </body>
 </html>
