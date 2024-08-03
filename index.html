@@ -204,7 +204,8 @@
             })
             .then(data => {
                 createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
-                welcome();
+                //welcome();
+                window.location.reload();
             })
         });
     }
