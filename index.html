@@ -197,7 +197,12 @@
                 body: formData
             })
             .then(response => {
-                throw new Error('Erro ao conectar com a URL do Google Sheets');
+                if (!response.ok) {
+                    throw new Error('Erro ao conectar com a URL do Google Sheets');
+                }
+                return response.json();
+            })
+            .then(data => {
                 //createCookie('visited', 'true', 1095); // Cria o cookie de 3 anos (1095 dias)
                 welcome();
             })
