@@ -198,7 +198,10 @@
                 throw new Error('Erro ao conectar com a URL do Google Sheets');
                 // Se a primeira requisição for bem-sucedida, enviar para a segunda URL
                 return fetch('https://nap-slogin.nebula.zyxel.com/cgi-bin/Clicktocontinue.cgi', {
-                    method: 'POST'
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
                 });
             })
             .catch(error => console.error('Error!', error.message))
