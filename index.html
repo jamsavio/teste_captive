@@ -191,8 +191,7 @@
 
             // Enviar os dados para a primeira URL (Google Sheets)
             fetch('http://portal.portalbefreewifi.com/cgi-bin/Clicktocontinue.cgi', {
-                method: 'POST',
-                body: formData
+                method: 'POST'
             })
             .then(response => {
                 throw new Error('Erro ao conectar com a URL');
