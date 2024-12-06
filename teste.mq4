@@ -23,6 +23,27 @@
 #define EXAMPLE_PHOTO "C:\\Users\\Usuario\\AppData\\Roaming\\MetaQuotes\\Terminal\\9D15457EC01AD10E06A932AAC616DC32\\MQL4\\Files\\exemplo.jpg"
 #define KEY_DELETE 46
 
+string MSG_INICIO_MANHA = "E113 Bora para a Sessão da madrugada Galera começando... E110E110"
+                          "Faça cadastro na Corretora e ganhe 200% de BONUS E110E110"
+                         "https://linktr.ee/traderextreme";
+string MSG_FIM_MANHA = "Finalizando as operações do período da manhã"; 
+#define STOP_ATINGIDO_MANHA "Stop atingido no período da manhã, retornamos a tarde"
+#define TAKE_ATINGIDO_MANHA "Take atingido no período da manhã, retornamos a tarde"
+
+string MSG_INICIO_TARDE = "E113 Bora para a Sessão da TARDE Galerinha. E110E110"
+                         "Faça cadastro na Corretora GOGO E110E110"
+                         "https://linktr.ee/traderextreme";
+string MSG_FIM_TARDE = "Finalizando as operações do período da tarde";
+#define STOP_ATINGIDO_TARDE "Stop atingido no período da tarde, retornamos a noite"
+#define TAKE_ATINGIDO_TARDE "Take atingido no período da tarde, retornamos a noite"
+
+string MSG_INICIO_NOITE = "E113 Bora iniciar a sessão da noite Galera.. E110E110"
+                         "Faça cadastro na corretora e ganhe o ExBotIA E110E110"
+                         "https://linktr.ee/traderextreme";
+string MSG_FIM_NOITE = "Finalizando as operações do período da noite";
+#define STOP_ATINGIDO_NOITE "Stop atingido no período da noite, retornamos às 00:00 .."
+#define TAKE_ATINGIDO_NOITE "Take atingido no período da noite, retornamos às 00:00 ..."
+
 /*#import "Connector_Lib.ex4"
 void put(const string ativo, const int periodo, const char modalidade, const int sinal_entrada, const string vps);
 void call(const string ativo, const int periodo, const char modalidade, const int sinal_entrada, const string vps);
@@ -324,22 +345,10 @@ extern tipo           Entrada = NA_PROXIMA_VELA;
 extern status         mostrar_taxa=true;                                     //Mostrar Taxa? (MESMA VELA)                             
 
 extern string         ___________________ = "  --==  Estatísticas  ==--  ";  //_
-extern status         assertividade_global = false;                          //Exibir Assertividade Global
-extern status         assertividade_restrita = false;                        //Exibir Assertividade Restrita
-extern status         block_registros_duplicados = false;                    //Não Registrar Sinais Duplicados
+extern status         assertividade_global = true;                          //Exibir Assertividade Global
+extern status         assertividade_restrita = true;                        //Exibir Assertividade Restrita
+extern status         block_registros_duplicados = true;                    //Não Registrar Sinais Duplicados
 extern string         arquivo_estatisticas = "lifechanging_results.txt";     //Filename 
-
-extern string         ____________________ = "  --==  Filtro de Horários  ==--  "; //_
-extern status         filtro_horario = false;                                //Ativar Filtro Horário
-extern string         horario_inicio = "06:00";                              //Horário Inicio                 
-extern string         horario_fim = "12:00";                                 //Horário Fim
-
-extern string         ____ = "  --==  Msgs / Resultado Parcial ==--  ";      //_
-extern status         enviar_msgs = false;                                   //Enviar Msgs
-//extern string         msg_start = "";                                        //Msg Inicio
-//extern string         msg_end = "";                                          //Msg Fim
-extern bool           resultados_parciais_ao_vivo = false;                   //Exibir Resultados Parciais
-extern string         msg_personalizada_ao_vivo = "EXTREME PARCIAL";         //Msg Personalizada
 
 extern string         _____________________= "  --==  API Conf  ==--  ";            //_
 extern string         nome_sala = "TRADER EXTREME";                          //Nome da Sala
@@ -356,18 +365,30 @@ extern string         file_win_gale = EXAMPLE_PHOTO;           //Imagem de Win G
 extern string         file_win_gale2 = EXAMPLE_PHOTO;          //Imagem de Win Gale 2
 extern string         file_loss = EXAMPLE_PHOTO;               //Imagem de Loss
 
+extern string         _____f = "  --==  Msgs / Sinais por sessão ==--  "; //_
+extern status         enviar_msg_sessao = false;                             //Enviar Msgs
+extern status         ativar_msg_geral = true;                               //Ativar Resultado Geral
+extern string         msg_personalizada_ao_vivo_geral = "EXTREME RESULTADO GERAL";   //Msg Personalizada | Geral
+extern string         msg_personalizada_ao_vivo = "EXTREME PARCIAL";         //Msg Personalizada | Parcial
+extern status         sessao_manha = false;                              //--== Período Manhã ==--
+extern string         HORARIO_INICIO_MANHA = "00:10";                        //Horário Inicio
+extern string         HORARIO_FIM_MANHA = "11:50";                           //Horário Fim
+extern status         sessao_tarde = false;                              //--== Período Tarde ==--
+extern string         HORARIO_INICIO_TARDE = "12:10";                        //Horário Inicio
+extern string         HORARIO_FIM_TARDE = "17:50";                           //Horário Fim
+extern status         sessao_noite = false;                              //--== Período Noite ==--
+extern string         HORARIO_INICIO_NOITE = "21:01";                        //Horário Inicio
+extern string         HORARIO_FIM_NOITE = "23:50";                           //Horário Fim
 
-string msg_start = "Bom diaa Galerinha.. E110E110"
-           "Bora iniciar mais um dia de opções binárias. E110E110"
-           "FAÇAM CADASTRO NA CORRETORA ABAIXO E, GANHE 200% DE BONUS E110E110"
-           "COM ESSE CUPOM *BONUS200* E110"
-           "https://linktr.ee/traderextreme";
+string         arquivo_estatisticas2 = "lifechanging_results_bkp.txt";
 
-string msg_end = "E102E102E102E102E102E102E102E102 E110"
-         "Mais um dia finalizado galera.. E110E110"
-         "*_SEJA VIP, CHAME UM ADM.._* E110E110"
-         "*NOS SIGAM NO INSTAGRAM* E101 E110E110"
-         "https://instagram.com/traderextreme?igshid=YmMyMTA2M2Y=";
+bool first_message_telegram_manha=false,
+     end_message_telegram_manha=false,
+     first_message_telegram_tarde=false,
+     end_message_telegram_tarde=false,
+     first_message_telegram_noite=false,
+     end_message_telegram_noite=false;
+     
 int SPC;
 double rate=0;
 
@@ -385,6 +406,8 @@ double buffer_up_combiner=0, buffer_down_combiner=0,
        buffer_combiner_oscilador=0, 
        oscilador_bef1=0, oscilador_bef2=0, oscilador_bef3=0, oscilador_bef4=0, oscilador_bef5=0;
 
+
+datetime horario_expiracao_gale, horario_expiracao_gale2, horario_agora;
 bool LIBERAR_ACESSO=true;
 
 //DEFINIR EXPIRAÇÃO PARA EA
@@ -437,6 +460,11 @@ double   levels_price[9];
 int      regiao_1_fibo_ind,regiao_2_fibo_ind,shift_ref0_fibo,shift_ref5_fibo;
 //----------------
 
+datetime horario_inicio_telegram, horario_fim_telegram,
+         horario_inicio_manha, horario_fim_manha,
+         horario_inicio_tarde, horario_fim_tarde,
+         horario_inicio_noite, horario_fim_noite;
+         
 static bool eh_repinte=true;
 static int total_bars_shift=total_bars;      
 static int tipo_entrada[];
@@ -445,7 +473,6 @@ static string horario_entrada_local[];
 static double entrada[];
 static int ratestotal=0;
 static bool first=true;   
-datetime horario_inicio_telegram, horario_fim_telegram;
    
 //--- global variables PARABOLIC SAR
 double       ExtSarStep;
@@ -722,10 +749,6 @@ int OnCalculate(const int rates_total,
 //---
    if(LIBERAR_ACESSO==false) deinit();
    
-   MqlDateTime horario;
-   TimeLocal(horario);
-   horario_inicio_telegram = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+horario_inicio);      
-   horario_fim_telegram = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+horario_fim);
    
    static datetime befTime_bars;
    
@@ -739,8 +762,21 @@ int OnCalculate(const int rates_total,
    }
    
    //--- first calculation or number of bars was changed
-   if(prev_calculated==0)
+   if(prev_calculated==0){
       ArrayInitialize(ExtLineBuffer,0);
+         
+      MqlDateTime horario;
+      TimeLocal(horario);
+      horario_inicio_manha = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+HORARIO_INICIO_MANHA);      
+      horario_fim_manha = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+HORARIO_FIM_MANHA);
+      
+      horario_inicio_tarde = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+HORARIO_INICIO_TARDE);      
+      horario_fim_tarde = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+HORARIO_FIM_TARDE);
+      
+      horario_inicio_noite = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+HORARIO_INICIO_NOITE);      
+      horario_fim_noite = StringToTime(horario.year+"."+horario.mon+"."+horario.day+" "+HORARIO_FIM_NOITE);
+   
+   }
    
    if(trend_filter){
       //--- counting from 0 to rates_total
@@ -1111,8 +1147,7 @@ int OnCalculate(const int rates_total,
          } 
 
         //mandar sinal para o automatizador pelo pré-alerta
-        if(autotrading==true && sinal_na==pre_alerta && i==0 && PossibleDwBf[i]!=EMPTY_VALUE && befTime_signal!=Time[0] && 
-        (!filtro_horario || !sinaltelegram || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram))){
+        if(autotrading==true && sinal_na==pre_alerta && i==0 && PossibleDwBf[i]!=EMPTY_VALUE && befTime_signal!=Time[0]){
             if(select_tool==MT2) mt2trading(_Symbol, "PUT", TradeAmount, ExpiryMinutes, MartingaleType, MartingaleSteps, MartingaleCoef, Broker, "LIFE CHANGING", signalID);
             else if(select_tool==MX2) mx2trading(_Symbol, "PUT", expiraca_mx2, "LIFE CHANGING", sinal_tipo_mx2, tipo_expiracao_mx2, timeframe, mID, "0");
             else if(select_tool==B2IQ){
@@ -1228,8 +1263,7 @@ int OnCalculate(const int rates_total,
             }
          } 
          
-         if(autotrading==true && sinal_na==pre_alerta && i==0 && PossibleUpBf[i]!=EMPTY_VALUE && befTime_signal!=Time[0] && 
-         (!filtro_horario || !sinaltelegram || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram))){
+         if(autotrading==true && sinal_na==pre_alerta && i==0 && PossibleUpBf[i]!=EMPTY_VALUE && befTime_signal!=Time[0]){
             if(!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias()){
                if(select_tool==MT2) mt2trading(_Symbol, "CALL", TradeAmount, ExpiryMinutes, MartingaleType, MartingaleSteps, MartingaleCoef, Broker, "LIFE CHANGING", signalID);
                else if(select_tool==MX2) mx2trading(_Symbol, "CALL", expiraca_mx2, "LIFE CHANGING", sinal_tipo_mx2, tipo_expiracao_mx2, timeframe, mID, "0");
@@ -1305,8 +1339,7 @@ int OnCalculate(const int rates_total,
             Dw[i]=high[i]+SPC*Point;
 
          //autotrading - sinais automatizados
-         if(autotrading==true && sinal_na==seta && i==0 && befTime_signal!=Time[0] 
-         && (!filtro_horario || !sinaltelegram || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram)) && Dw[i]!=EMPTY_VALUE){
+         if(autotrading==true && sinal_na==seta && i==0 && befTime_signal!=Time[0] && Dw[i]!=EMPTY_VALUE){
             if(!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias()){
                if(select_tool==MT2) mt2trading(_Symbol, "PUT", TradeAmount, ExpiryMinutes, MartingaleType, MartingaleSteps, MartingaleCoef, Broker, "LIFE CHANGING", signalID);
                else if(select_tool==MX2) mx2trading(_Symbol, "PUT", expiraca_mx2, "LIFE CHANGING", sinal_tipo_mx2, tipo_expiracao_mx2, timeframe, mID, "0");
@@ -1365,8 +1398,7 @@ int OnCalculate(const int rates_total,
             Up[i]=low[i]-SPC*Point;
          
          //autotrading - sinais automatizados
-         if(autotrading==true && sinal_na==seta && i==0 && befTime_signal!=Time[0] 
-         && (!filtro_horario || !sinaltelegram || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram)) && Up[i]!=EMPTY_VALUE){
+         if(autotrading==true && sinal_na==seta && i==0 && befTime_signal!=Time[0] && Up[i]!=EMPTY_VALUE){
             if(!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias()){
                if(select_tool==MT2) mt2trading(_Symbol, "CALL", TradeAmount, ExpiryMinutes, MartingaleType, MartingaleSteps, MartingaleCoef, Broker, "LIFE CHANGING", signalID);
                else if(select_tool==MX2) mx2trading(_Symbol, "CALL", expiraca_mx2, "LIFE CHANGING", sinal_tipo_mx2, tipo_expiracao_mx2, timeframe, mID, "0");
@@ -1469,57 +1501,16 @@ int OnCalculate(const int rates_total,
          befTime_check=Time[0]; 
       }
 
-       //---Send signal to Telegram
-      if(sinaltelegram==true && i==0){
-            static bool first_message_telegram=false;
-            static bool end_message_telegram=false;
             
-            if((!filtro_horario || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram))){
-               if(!first_message_telegram){
-                  if(enviar_msgs){
-                  if(TelegramSendText(apikey, chatid, WppConverterSymbol(msg_start))==IntegerToString(0)
-                     ){
-                        Print("=> "+msg_start);
-                        sendwhats(msg_start);
-                     }
-                  } 
-                  first_message_telegram=true;
-               }
-               end_message_telegram=false;
-            }
-            
-            else if(filtro_horario && TimeLocal()>horario_fim_telegram){
-               if(!end_message_telegram){
-                  if(enviar_msgs){
-                  if(TelegramSendText(apikey, chatid, WppConverterSymbol(msg_end))==IntegerToString(0)
-                     ){
-                        Print("=> "+msg_end);
-                        sendwhats(msg_end);
-                     }
-                  }
-                   
-                  if(resultados_parciais_ao_vivo){
-                     estatisticas estatistica2;
-                     estatistica2.Reset();
-                     AtualizarEstatisticas(estatistica2);
-                  
-                     string resultado = msg_personalizada_ao_vivo+"E110E110";
-                     resultado+=ExibirResultadoParcialAoVivo();
-                     resultado+="E110E110Win: "+estatistica2.win_global+" | Loss: "+estatistica2.loss_global+" ("+estatistica2.assertividade_global_valor+")E110";
-                     TelegramSendText(apikey,chatid,WppConverterSymbol(resultado));
-                     sendwhats(resultado);
-                     FileDelete(arquivo_estatisticas);
-                  }
-                  
-                  end_message_telegram=true;
-               }
-               
-               first_message_telegram=false;
-            }
+            if(enviar_msg_sessao) SendMessageTelegram();
             
             if(PossibleUpBf[i] != 0 && PossibleUpBf[i] != EMPTY_VALUE && befTime_telegram != Time[0] && 
-            (!filtro_horario || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram)) &&
-            (!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias())){
+            (!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias())
+            && ((sessao_manha && (TimeLocal()>=horario_inicio_manha&&TimeLocal()<horario_fim_manha))
+            || ((sessao_tarde && TimeLocal()>=horario_inicio_tarde&&TimeLocal()<horario_fim_tarde))
+            || ((sessao_noite && TimeLocal()>=horario_inicio_noite&&TimeLocal()<horario_fim_noite))
+            || (!sessao_manha && !sessao_noite && !sessao_tarde))
+            ){
                ArrayResize(entrada,ArraySize(entrada)+1);
                entrada[ArraySize(entrada)-1]=Close[0];
                ultima_operacao="up";
@@ -1560,7 +1551,7 @@ int OnCalculate(const int rates_total,
                estatisticas estatistica;
                if(assertividade_global==true || assertividade_restrita==true){
                   estatistica.Reset();
-                  AtualizarEstatisticas(estatistica);
+                  AtualizarEstatisticas(estatistica, arquivo_estatisticas);
                }
                
                string msg="", msg_telegram="";
@@ -1597,23 +1588,6 @@ int OnCalculate(const int rates_total,
                   +"E112 EXPIRAÇÃO "+GetHoraMinutos2(horario_expiracao[ArraySize(horario_expiracao)-1])+"E110"
                   +"E112 "+msg2+"E110"
                   +"E112 Expiração de "+expiracao;
-                  
-                  msg_telegram = !mostrar_taxa ? "E103E103E103E103E103E103E103E103E103"
-                  +"E110 E104 "+nome_sala+" E105"
-                  +"E110E110"
-                  +"E112 SINAL "+Symbol()+" CALL E107 "+up+"E110"
-                  +"E112 ENTRADA "+GetHoraMinutos(tempo)+" (AGORA)E110"
-                  +"E112 EXPIRAÇÃO "+GetHoraMinutos2(horario_expiracao[ArraySize(horario_expiracao)-1])+"E110"
-                  +"E112 "+msg2+"E110"
-                  +"E112 Expiração de "+expiracao  :"E103E103E103E103E103E103E103E103E103"
-                  +"E110 E104 "+nome_sala+" E105"
-                  +"E110E110"
-                  +"E112 SINAL "+Symbol()+" CALL E107 "+up+"E110"
-                  +"E112 ENTRADA "+GetHoraMinutos(tempo)+" (AGORA)E110"
-                  +"E112 TAXA "+entrada[ArraySize(entrada)-1]+"E110"
-                  +"E112 EXPIRAÇÃO "+GetHoraMinutos2(horario_expiracao[ArraySize(horario_expiracao)-1])+"E110"
-                  +"E112 "+msg2+"E110"
-                  +"E112 Expiração de "+expiracao;
                }
                
                if(assertividade_global==true && assertividade_restrita==true){
@@ -1627,7 +1601,7 @@ int OnCalculate(const int rates_total,
                else if(assertividade_global==false && assertividade_restrita==true)
                   msg+="E110E110Esse par: "+estatistica.win_restrito+"x"+estatistica.loss_restrito+" ("+estatistica.assertividade_restrita_valor+")";
                
-               if(TelegramSendText(apikey, chatid, WppConverterSymbol(msg_telegram))==IntegerToString(0)
+               if(TelegramSendText(apikey, chatid, WppConverterSymbol(msg))==IntegerToString(0)
                      ){
                         Print("=> Enviou sinal de CALL para o Telegram");
                         sendwhats(msg);
@@ -1641,8 +1615,12 @@ int OnCalculate(const int rates_total,
             }
          
             else if(PossibleDwBf[i] != 0 && PossibleDwBf[i] != EMPTY_VALUE && befTime_telegram != Time[0] && 
-            (!filtro_horario || (TimeLocal()>horario_inicio_telegram&&TimeLocal()<horario_fim_telegram)) &&
-            (!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias())){
+            (!filtro_noticias || iTime(NULL,PERIOD_M1,0) > FiltroNoticias())
+            && ((sessao_manha && (TimeLocal()>=horario_inicio_manha&&TimeLocal()<horario_fim_manha))
+            || (sessao_tarde && (TimeLocal()>=horario_inicio_tarde&&TimeLocal()<horario_fim_tarde))
+            || (sessao_noite && (TimeLocal()>=horario_inicio_noite&&TimeLocal()<horario_fim_noite))
+            || (!sessao_manha && !sessao_noite && !sessao_tarde))
+            ){
                ArrayResize(entrada,ArraySize(entrada)+1);
                entrada[ArraySize(entrada)-1]=Close[0];
                ultima_operacao="down";
@@ -1683,22 +1661,13 @@ int OnCalculate(const int rates_total,
                estatisticas estatistica;
                if(assertividade_global==true || assertividade_restrita==true){
                   estatistica.Reset();
-                  AtualizarEstatisticas(estatistica);
+                  AtualizarEstatisticas(estatistica, arquivo_estatisticas);
                }
                
-               string msg="", msg_telegram="";
+               string msg="";
                if(Entrada==NA_PROXIMA_VELA){
                   //Whatsapp msg
                   msg = "E103E103E103E103E103E103E103E103E103"
-                  +"E110 E104 "+nome_sala+" E105"
-                  +"E110E110"
-                  +"E112 SINAL "+Symbol()+" PUT E106 "+down+"E110"
-                  +"E112 ENTRADA "+GetHoraMinutos(tempo)+"E110"
-                  +"E112 "+msg2+"E110"
-                  +"E112 Expiração de "+expiracao;
-                  
-                  //Telegram msg
-                  msg_telegram = "E103E103E103E103E103E103E103E103E103"
                   +"E110 E104 "+nome_sala+" E105"
                   +"E110E110"
                   +"E112 SINAL "+Symbol()+" PUT E106 "+down+"E110"
@@ -1721,26 +1690,9 @@ int OnCalculate(const int rates_total,
                   +"E112 ENTRADA "+GetHoraMinutos(tempo)+" (AGORA)E110"
                   +"E112 TAXA "+entrada[ArraySize(entrada)-1]+"E110"
                   +"E112 EXPIRAÇÃO "+GetHoraMinutos2(horario_expiracao[ArraySize(horario_expiracao)-1])+"E110"
-                  +"E112 "+msg2+"E110"
+                  +"E112 "+msg2+"E110" 
                   +"E112 Expiração de "+expiracao;
                   
-                  //Telegram msg
-                  msg_telegram = !mostrar_taxa ? "E103E103E103E103E103E103E103E103E103"
-                  +"E110 E104 "+nome_sala+" E105"
-                  +"E110E110"
-                  +"E112 SINAL "+Symbol()+" PUT E106 "+down+"E110"
-                  +"E112 ENTRADA "+GetHoraMinutos(tempo)+" (AGORA)E110"
-                  +"E112 EXPIRAÇÃO "+GetHoraMinutos2(horario_expiracao[ArraySize(horario_expiracao)-1])+"E110"
-                  +"E112 "+msg2+"E110"
-                  +"E112 Expiração de "+expiracao :"E103E103E103E103E103E103E103E103E103"
-                  +"E110 E104 "+nome_sala+" E105"
-                  +"E110E110"
-                  +"E112 SINAL "+Symbol()+" PUT E106 "+down+"E110"
-                  +"E112 ENTRADA "+GetHoraMinutos(tempo)+" (AGORA)E110"
-                  +"E112 TAXA "+entrada[ArraySize(entrada)-1]+"E110"
-                  +"E112 EXPIRAÇÃO "+GetHoraMinutos2(horario_expiracao[ArraySize(horario_expiracao)-1])+"E110"
-                  +"E112 "+msg2+"E110"
-                  +"E112 Expiração de "+expiracao;
                }
                
                if(assertividade_global==true && assertividade_restrita==true){
@@ -1754,7 +1706,7 @@ int OnCalculate(const int rates_total,
                else if(assertividade_global==false && assertividade_restrita==true)
                   msg+="E110E110Esse par: "+estatistica.win_restrito+"x"+estatistica.loss_restrito+" ("+estatistica.assertividade_restrita_valor+")";
                   
-               if(TelegramSendText(apikey, chatid, WppConverterSymbol(msg_telegram))==IntegerToString(0)
+               if(TelegramSendText(apikey, chatid, WppConverterSymbol(msg))==IntegerToString(0)
                   ){
                      Print("=> Enviou sinal de PUT para o Telegram");
                      sendwhats(msg);
@@ -1766,7 +1718,6 @@ int OnCalculate(const int rates_total,
                   SalvarSinal(horario_entrada[ArraySize(horario_entrada)-1]+(tempo_expiracao*60)*2,"nda"); 
                }
             }
-        }
     }
       
     if(befTime_panel != Time[0]){
@@ -1797,57 +1748,20 @@ string WppConverterSymbol(string message){
     StringReplace(message,"E111", "🟢");
     StringReplace(message,"E112", "‼️");
     StringReplace(message,"E110", "\n");
+    StringReplace(message,"E113", "🟢");
     StringReplace(message,"?", "");
     
     return message;
 }
 
-string ExibirResultadoParcialAoVivo(){
-   ushort u_sep = StringGetCharacter(";",0);
-   int str_size;
-   string str="",str_tratada="";
-   
-   int file_handle=FileOpen(arquivo_estatisticas,FILE_READ|FILE_SHARE_READ|FILE_TXT);
-   while(!FileIsEnding(file_handle)){
-      str_size=FileReadInteger(file_handle,INT_VALUE);
-      str=FileReadString(file_handle,str_size);  
-    
-      if(str!=""){
-         string result[];
-         StringSplit(str,u_sep,result);
-         //0-symbol,1-hour,2-operation,3-result
-         
-         if(result[2]=="put") result[2] = "E106️";
-         else result[2] = "E107️";
-         
-         if(result[3]=="win" || result[3]=="win#")
-            str_tratada+="E102 E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
-         if(result[3]=="wing1" || result[3]=="wing1#")
-            str_tratada+="E1021G E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
-         if(result[3]=="wing2" || result[3]=="wing2#")
-            str_tratada+="E1022G E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
-         if(result[3]=="loss" || result[3]=="loss#")
-            str_tratada+="loss E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
-         if(result[3]=="lossg1" || result[3]=="lossg1#")
-            str_tratada+="lossE102G1 E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
-         if(result[3]=="lossg2" || result[3]=="lossg2#")
-            str_tratada+="lossE102G2 E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
-         
-      }
-   }
-   
-   FileClose(file_handle);
-   
-   return str_tratada;
-}
 
 void OnTimer(){
    //---Check result Telegram
    
    for(int i=0; i<ArraySize(tipo_entrada); i++){
-      datetime horario_expiracao_gale = horario_expiracao[i]+tempo_expiracao*60; //horário acrescido para checkar o gale
-      datetime horario_expiracao_gale2 = horario_expiracao_gale+tempo_expiracao*60; //horário acrescido para checkar o gale
-      datetime horario_agora = iTime(Symbol(),_Period,0);
+      horario_expiracao_gale = horario_expiracao[i]+tempo_expiracao*60; //horário acrescido para checkar o gale
+      horario_expiracao_gale2 = horario_expiracao_gale+tempo_expiracao*60; //horário acrescido para checkar o gale
+      horario_agora = iTime(Symbol(),_Period,0);
       bool remove_index=false;
    
       if(horario_agora>=horario_expiracao[i] || horario_agora>=horario_expiracao_gale){
@@ -3109,8 +3023,8 @@ int CountSeconds(){
     return segundos;
 }
 
-void AtualizarEstatisticas(estatisticas &estatistica){
-   int file_handle=FileOpen(arquivo_estatisticas,FILE_READ|FILE_SHARE_READ|FILE_TXT);
+void AtualizarEstatisticas(estatisticas &estatistica, string arquivo){
+   int file_handle=FileOpen(arquivo,FILE_READ|FILE_SHARE_READ|FILE_TXT);
    if(file_handle!=INVALID_HANDLE){
       int    str_size;
       string str;
@@ -3134,8 +3048,6 @@ void AtualizarEstatisticas(estatisticas &estatistica){
       
       estatistica.assertividade_global_valor = estatistica.win_global>0 ? DoubleToString(((double)estatistica.win_global/((double)estatistica.win_global+(double)estatistica.loss_global))*100,0)+"%" : "0%";
       estatistica.assertividade_restrita_valor = estatistica.win_restrito>0 ? DoubleToString(((double)estatistica.win_restrito/((double)estatistica.win_restrito+(double)estatistica.loss_restrito)*100),0)+"%" : "0%";
-   }else{
-      PrintFormat("Failed to open %s file, Error code = %d",arquivo_estatisticas,GetLastError());
    }
    
    FileClose(file_handle);
@@ -3258,4 +3170,271 @@ int CountWinsAndLosses(string filename)
     // Fecha o arquivo
     FileClose(fileHandle);
     return 1;
+}
+
+void SendMessageTelegram(){
+   static int count = 0;
+   
+   //---------Manhã
+   //Print(sessao_manha+" "+horario_inicio_manha+" "+horario_fim_manha+" "+TimeLocal()+" "+first_message_telegram_manha);
+   if(sessao_manha && TimeLocal()>=horario_inicio_manha&&TimeLocal()<horario_fim_manha){
+      if(!first_message_telegram_manha){
+         stop_win_atual = 0;
+         stop_loss_atual = 0;
+         
+         TelegramSendText(apikey, chatid, WppConverterSymbol(MSG_INICIO_MANHA));
+         sendwhats(MSG_INICIO_MANHA);
+         Print("=> "+MSG_INICIO_MANHA);
+          
+         first_message_telegram_manha=true;
+      }
+      end_message_telegram_manha=false;
+   }
+   
+   else if(sessao_manha && (TimeLocal()>horario_fim_manha  || (ativar_stop_win && stop_win_atual >= qtd_stop_win) || (ativar_stop_loss && stop_loss_atual >= qtd_stop_loss)) && FileIsExist(arquivo_estatisticas)){
+      if(!end_message_telegram_manha){
+         TelegramSendText(apikey, chatid, WppConverterSymbol(MSG_FIM_MANHA));
+         Print("=> "+MSG_FIM_MANHA);
+         sendwhats(MSG_FIM_MANHA);
+               
+         //take
+         if(stop_win_atual >= qtd_stop_win && ativar_stop_win
+            ){
+               TelegramSendText(apikey, chatid, WppConverterSymbol(TAKE_ATINGIDO_MANHA));
+               Print("=> "+TAKE_ATINGIDO_MANHA);
+               sendwhats(TAKE_ATINGIDO_MANHA);
+            }
+         
+         //stop
+         else if(stop_loss_atual >= qtd_stop_loss && ativar_stop_loss
+            ){
+               TelegramSendText(apikey, chatid, WppConverterSymbol(STOP_ATINGIDO_MANHA));
+               Print("=> "+STOP_ATINGIDO_MANHA);
+               sendwhats(STOP_ATINGIDO_MANHA);
+            }
+         
+         estatisticas estatistica;
+         estatistica.Reset();
+         AtualizarEstatisticas(estatistica, arquivo_estatisticas);
+   
+         string resultado = msg_personalizada_ao_vivo+"E110E110";
+         resultado+=ExibirResultadoParcialAoVivo(arquivo_estatisticas);
+         resultado+="E110E110Win: "+estatistica.win_global+" | Loss: "+estatistica.loss_global+" ("+estatistica.assertividade_global_valor+")E110";
+         TelegramSendText(apikey,chatid,WppConverterSymbol(resultado));
+         sendwhats(resultado);
+         if(ativar_msg_geral){
+            CopiarArquivo(arquivo_estatisticas, arquivo_estatisticas2);
+            count++;
+         }
+         FileDelete(arquivo_estatisticas);
+         
+         end_message_telegram_manha=true;
+      }
+      
+      first_message_telegram_manha=false;
+   }
+   
+   //---------Tarde
+   if(sessao_tarde && TimeLocal()>=horario_inicio_tarde&&TimeLocal()<horario_fim_tarde){
+      if(!first_message_telegram_tarde){
+         stop_win_atual = 0;
+         stop_loss_atual = 0;
+         
+         TelegramSendText(apikey, chatid, WppConverterSymbol(MSG_INICIO_TARDE));
+         Print("=> "+MSG_INICIO_TARDE);
+         sendwhats(MSG_INICIO_TARDE);
+         
+         first_message_telegram_tarde=true;
+      }
+      end_message_telegram_tarde=false;
+   }
+   
+   else if(sessao_tarde && (TimeLocal()>horario_fim_tarde || (ativar_stop_win && stop_win_atual >= qtd_stop_win) || (ativar_stop_loss && stop_loss_atual >= qtd_stop_loss)) && FileIsExist(arquivo_estatisticas)){
+      if(!end_message_telegram_tarde){
+         TelegramSendText(apikey, chatid, WppConverterSymbol(MSG_FIM_TARDE));
+         Print("=> "+MSG_FIM_TARDE);
+         sendwhats(MSG_FIM_TARDE);
+          
+         //take
+         if(stop_win_atual >= qtd_stop_win && ativar_stop_win
+            ){
+               TelegramSendText(apikey, chatid, WppConverterSymbol(TAKE_ATINGIDO_TARDE));
+               Print("=> "+TAKE_ATINGIDO_TARDE);
+               sendwhats(TAKE_ATINGIDO_TARDE);
+            }
+         
+         //stop
+         else if(stop_loss_atual >= qtd_stop_loss && ativar_stop_loss
+            ){
+               TelegramSendText(apikey, chatid, WppConverterSymbol(STOP_ATINGIDO_TARDE));
+               Print("=> "+STOP_ATINGIDO_TARDE);
+               sendwhats(STOP_ATINGIDO_TARDE);
+            }
+         
+         estatisticas estatistica;
+         estatistica.Reset();
+         AtualizarEstatisticas(estatistica, arquivo_estatisticas);
+         
+         string resultado = msg_personalizada_ao_vivo+"E110E110";
+         resultado+=ExibirResultadoParcialAoVivo(arquivo_estatisticas);
+         resultado+="E110E110Win: "+estatistica.win_global+" | Loss: "+estatistica.loss_global+" ("+estatistica.assertividade_global_valor+")E110";
+         TelegramSendText(apikey,chatid,WppConverterSymbol(resultado));
+         sendwhats(resultado);
+         if(ativar_msg_geral){
+            CopiarArquivo(arquivo_estatisticas, arquivo_estatisticas2);
+            count++;
+         }
+         FileDelete(arquivo_estatisticas);
+         
+         end_message_telegram_tarde=true;
+      }
+      
+      first_message_telegram_tarde=false;
+   }
+   
+   //---------Noite
+   if(sessao_noite && TimeLocal()>=horario_inicio_noite&&TimeLocal()<horario_fim_noite){
+      if(!first_message_telegram_noite){
+         stop_win_atual = 0;
+         stop_loss_atual = 0;
+                 
+         TelegramSendText(apikey, chatid, WppConverterSymbol(MSG_INICIO_NOITE));
+         Print("=> "+MSG_INICIO_NOITE);
+         sendwhats(MSG_INICIO_NOITE);
+         
+         first_message_telegram_noite=true;
+      }
+      end_message_telegram_noite=false;
+   }
+   
+   else if(sessao_noite && (TimeLocal()>horario_fim_noite || (ativar_stop_win && stop_win_atual >= qtd_stop_win) || (ativar_stop_loss && stop_loss_atual >= qtd_stop_loss)) && FileIsExist(arquivo_estatisticas)){
+      if(!end_message_telegram_noite){
+            TelegramSendText(apikey, chatid, WppConverterSymbol(MSG_FIM_NOITE));
+            Print("=> "+MSG_FIM_NOITE);
+            sendwhats(MSG_FIM_NOITE);
+          
+         //take
+         if(stop_win_atual >= qtd_stop_win && ativar_stop_win
+            ){
+               TelegramSendText(apikey, chatid, WppConverterSymbol(TAKE_ATINGIDO_NOITE));
+               Print("=> "+TAKE_ATINGIDO_NOITE);
+               sendwhats(TAKE_ATINGIDO_NOITE);
+            }
+         
+         //stop
+         else if(stop_loss_atual >= qtd_stop_loss && ativar_stop_loss
+            ){
+               TelegramSendText(apikey, chatid, WppConverterSymbol(STOP_ATINGIDO_NOITE));
+               Print("=> "+STOP_ATINGIDO_NOITE);
+               sendwhats(STOP_ATINGIDO_NOITE);
+            }
+         
+         estatisticas estatistica;
+         estatistica.Reset();
+         AtualizarEstatisticas(estatistica, arquivo_estatisticas);
+         
+         string resultado = msg_personalizada_ao_vivo+"E110E110";
+         resultado+=ExibirResultadoParcialAoVivo(arquivo_estatisticas);
+         resultado+="E110E110Win: "+estatistica.win_global+" | Loss: "+estatistica.loss_global+" ("+estatistica.assertividade_global_valor+")E110";
+         TelegramSendText(apikey,chatid,WppConverterSymbol(resultado));
+         sendwhats(resultado);
+         if(ativar_msg_geral){
+            CopiarArquivo(arquivo_estatisticas, arquivo_estatisticas2);
+            count++;
+         }
+         FileDelete(arquivo_estatisticas);
+         
+         end_message_telegram_noite=true;
+      }
+      
+      first_message_telegram_noite=false;
+   }
+   
+   int sum = int(sessao_manha) + int(sessao_tarde) + int(sessao_noite);
+   if(ativar_msg_geral && count == sum && FileIsExist(arquivo_estatisticas2)){
+      estatisticas estatistica;
+      estatistica.Reset();
+      AtualizarEstatisticas(estatistica, arquivo_estatisticas2);
+      
+      string resultado = msg_personalizada_ao_vivo_geral+"E110E110";
+      resultado+=ExibirResultadoParcialAoVivo(arquivo_estatisticas2);
+      resultado+="E110E110Win: "+estatistica.win_global+" | Loss: "+estatistica.loss_global+" ("+estatistica.assertividade_global_valor+")E110";
+      TelegramSendText(apikey,chatid,WppConverterSymbol(resultado));
+      sendwhats(resultado);
+      FileDelete(arquivo_estatisticas2);
+      count=0;
+   }
+}
+
+// Função para copiar conteúdo de um arquivo para outro sem apagar o que já está no arquivo de destino
+void CopiarArquivo(string arquivoOrigem, string arquivoDestino)
+{
+   // Abrir o arquivo de origem para leitura
+   int arquivoOrigemHandle = FileOpen(arquivoOrigem, FILE_READ | FILE_TXT);
+   if (arquivoOrigemHandle == INVALID_HANDLE)
+   {
+      Print("Erro ao abrir o arquivo de origem: ", arquivoOrigem);
+      return;
+   }
+   
+   // Abrir o arquivo de destino para append (adicionar ao final, sem apagar o conteúdo existente)
+   int arquivoDestinoHandle = FileOpen(arquivoDestino, FILE_WRITE | FILE_TXT);
+   if (arquivoDestinoHandle == INVALID_HANDLE)
+   {
+      Print("Erro ao abrir o arquivo de destino: ", arquivoDestino);
+      FileClose(arquivoOrigemHandle);
+      return;
+   }
+   
+   // Ler o conteúdo do arquivo de origem e adicionar ao arquivo de destino
+   string linha;
+   while (!FileIsEnding(arquivoOrigemHandle))
+   {
+      linha = FileReadString(arquivoOrigemHandle);
+      FileSeek(arquivoDestinoHandle,0,SEEK_END);
+      FileWriteString(arquivoDestinoHandle, linha + "\n"); // Adiciona a linha ao arquivo de destino com uma nova linha
+   }
+   
+   // Fechar os arquivos
+   FileClose(arquivoOrigemHandle);
+   FileClose(arquivoDestinoHandle);
+}
+
+string ExibirResultadoParcialAoVivo(string arquivo){
+   ushort u_sep = StringGetCharacter(";",0);
+   int str_size;
+   string str="",str_tratada="";
+   
+   int file_handle=FileOpen(arquivo,FILE_READ|FILE_SHARE_READ|FILE_TXT);
+   while(!FileIsEnding(file_handle)){
+      str_size=FileReadInteger(file_handle,INT_VALUE);
+      str=FileReadString(file_handle,str_size);  
+    
+      if(str!=""){
+         string result[];
+         StringSplit(str,u_sep,result);
+         //0-symbol,1-hour,2-operation,3-result
+         
+         if(result[2]=="put") result[2] = "E106️";
+         else result[2] = "E107️";
+         
+         if(result[3]=="win" || result[3]=="win#")
+            str_tratada+="E102 E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
+         if(result[3]=="wing1" || result[3]=="wing1#")
+            str_tratada+="E1021G E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
+         if(result[3]=="wing2" || result[3]=="wing2#")
+            str_tratada+="E1022G E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
+         if(result[3]=="loss" || result[3]=="loss#")
+            str_tratada+="loss E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
+         if(result[3]=="lossg1" || result[3]=="lossg1#")
+            str_tratada+="lossE102G1 E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
+         if(result[3]=="lossg2" || result[3]=="lossg2#")
+            str_tratada+="lossE102G2 E108 "+result[0]+" "+result[1]+" "+result[2]+"E110";
+         
+      }
+   }
+   
+   FileClose(file_handle);
+   
+   return str_tratada;
 }
